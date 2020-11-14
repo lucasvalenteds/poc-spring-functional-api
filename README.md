@@ -17,3 +17,10 @@ We should be able to persist person's name, find all names persisted and remove 
 | Run tests | `./gradlew test` |
 | Run application | `./gradlew run` |
 
+## Manual testing
+
+| Operation | Command |
+| :--- | :--- |
+| Persist | `make persist` |
+| Find all | `make find-all` |
+| Remove | `make remove id=<id>` |

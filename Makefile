@@ -33,5 +33,5 @@ find-all:
 remove:
 	@curl --request DELETE \
 			--verbose \
-			$(API_URL)/person/$(ID) && echo
+			$(API_URL)/person/$(id) && echo
 
