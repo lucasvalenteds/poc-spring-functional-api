@@ -30,7 +30,6 @@ public final class PersonHandler {
             .doOnError(it -> LOGGER.warn("Could not respond person persisted", it));
     }
 
-    @SuppressWarnings("UNUSED")
     public Mono<ServerResponse> findAll(ServerRequest request) {
         return ServerResponse
             .status(HttpStatus.OK)
