@@ -31,6 +31,8 @@ dependencies {
     implementation("com.fasterxml.jackson.core", "jackson-databind", properties["version.jackson"].toString())
 
     testImplementation("org.junit.jupiter", "junit-jupiter", properties["version.junit"].toString())
+    testImplementation("org.testcontainers", "testcontainers", properties["version.testcontainers"].toString())
+    testImplementation("org.testcontainers", "junit-jupiter", properties["version.testcontainers"].toString())
 }
 
 configure<ApplicationPluginConvention> {
