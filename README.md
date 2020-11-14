@@ -12,6 +12,8 @@ We should be able to persist person's name, find all names persisted and remove 
 
 | Description | Command |
 | :-- | :-- |
+| Provision database | `make provision` |
+| Destroy database | `make destroy` |
 | Run tests | `./gradlew test` |
 | Run application | `./gradlew run` |
 
