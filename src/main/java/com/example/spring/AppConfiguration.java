@@ -49,10 +49,11 @@ public final class AppConfiguration {
         GenericApplicationContext context = new GenericApplicationContext();
         context.setEnvironment(environment);
 
+        context.registerBean(ConnectionString.class, () ->
+            new ConnectionString(environment.getRequiredProperty("database.url", String.class))
+        );
         context.registerBean(ReactiveFluentMongoOperations.class, () ->
-            new ReactiveMongoTemplate(new SimpleReactiveMongoDatabaseFactory(new ConnectionString(
-                environment.getRequiredProperty("database.url", String.class)
-            )))
+            new ReactiveMongoTemplate(new SimpleReactiveMongoDatabaseFactory(context.getBean(ConnectionString.class)))
         );
         context.registerBean(WebHttpHandlerBuilder.WEB_HANDLER_BEAN_NAME, WebHandler.class, () ->
             RouterFunctions.toWebHandler(context.getBean(PersonRouter.class).create())

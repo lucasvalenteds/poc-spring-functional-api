@@ -49,3 +49,19 @@ tasks.withType<Test> {
         events = setOf(TestLogEvent.PASSED, TestLogEvent.FAILED, TestLogEvent.SKIPPED)
     }
 }
+
+sourceSets {
+    create("integTest") {
+        java.srcDir(file("src/integTest/java"))
+        resources.srcDir(file("src/integTest/resources"))
+        compileClasspath += sourceSets["main"].output + configurations["testRuntimeClasspath"]
+        runtimeClasspath += output + compileClasspath
+    }
+}
+
+tasks.register<Test>("integTest") {
+    description = "Runs the integration tests."
+    group = "verification"
+    testClassesDirs = sourceSets["integTest"].output.classesDirs
+    classpath = sourceSets["integTest"].runtimeClasspath
+}
