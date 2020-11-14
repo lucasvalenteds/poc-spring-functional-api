@@ -58,4 +58,7 @@ public abstract class TestConfiguration {
     static void afterAll() {
         disposableServer.dispose();
     }
+
+    TestConfiguration() {
+    }
 }
