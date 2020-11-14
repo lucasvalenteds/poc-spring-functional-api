@@ -1,5 +1,6 @@
-package com.example.spring;
+package com.example.spring.testing;
 
+import com.example.spring.AppConfiguration;
 import com.example.spring.person.PersonRepository;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -20,7 +21,7 @@ import reactor.netty.DisposableServer;
 import java.util.Map;
 
 @Testcontainers
-public abstract class TestConfiguration {
+public abstract class EndToEndTestConfiguration {
 
     @Container
     private static final GenericContainer container = new GenericContainer(DockerImageName.parse("mongo"))
@@ -59,6 +60,6 @@ public abstract class TestConfiguration {
         disposableServer.dispose();
     }
 
-    TestConfiguration() {
+    public EndToEndTestConfiguration() {
     }
 }

@@ -1,39 +1,18 @@
 package com.example.spring.person;
 
-import com.mongodb.ConnectionString;
+import com.example.spring.testing.IntegrationTestConfiguration;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
-import org.springframework.data.mongodb.core.SimpleReactiveMongoDatabaseFactory;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.web.reactive.function.BodyInserters;
-import org.testcontainers.containers.GenericContainer;
-import org.testcontainers.containers.wait.strategy.Wait;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
-import org.testcontainers.utility.DockerImageName;
 import reactor.core.publisher.Flux;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-@Testcontainers
-class PersonRouterTest {
-
-    @Container
-    private static final GenericContainer container = new GenericContainer(DockerImageName.parse("mongo"))
-        .withExposedPorts(27017)
-        .waitingFor(Wait.forLogMessage("(?i).*waiting for connections.*", 1));
-
-    private final ReactiveMongoTemplate mongo = new ReactiveMongoTemplate(
-        new SimpleReactiveMongoDatabaseFactory(
-            new ConnectionString(
-                String.format("mongodb://%s:%d/test", container.getHost(), container.getFirstMappedPort())
-            )
-        )
-    );
+class PersonRouterTest extends IntegrationTestConfiguration {
 
     private final WebTestClient client = WebTestClient
         .bindToRouterFunction(new PersonRouter(new PersonHandler(new PersonRepository(mongo))).create())
