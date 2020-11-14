@@ -26,7 +26,6 @@ dependencies {
 
     implementation("org.springframework.data", "spring-data-mongodb", properties["version.spring.data"].toString())
     implementation("org.mongodb", "mongodb-driver-reactivestreams", properties["version.mongodb"].toString())
-    testImplementation("de.flapdoodle.embed", "de.flapdoodle.embed.mongo", properties["version.mongodb.embed"].toString())
 
     implementation("com.fasterxml.jackson.core", "jackson-databind", properties["version.jackson"].toString())
 
