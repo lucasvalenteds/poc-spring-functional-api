@@ -19,6 +19,7 @@ public final class PersonRouter {
                 RouterFunctions.route()
                     .GET(handler::findAll)
                     .POST(handler::persist)
+                    .DELETE("/{id}", handler::remove)
                     .build()
             )
             .build();

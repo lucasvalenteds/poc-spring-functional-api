@@ -1,6 +1,7 @@
 package com.example.spring.person;
 
 import com.mongodb.ConnectionString;
+import org.bson.types.ObjectId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
@@ -22,8 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 class PersonRouterTest {
 
     @Container
-    private static final GenericContainer container = new GenericContainer(DockerImageName.parse("mongo"))
-        .withExposedPorts(27017)
+    private static final GenericContainer container = new GenericContainer(DockerImageName.parse("mongo")).withExposedPorts(27017)
         .waitingFor(Wait.forLogMessage("(?i).*waiting for connections.*", 1));
 
     private final ReactiveMongoTemplate mongo = new ReactiveMongoTemplate(
@@ -85,5 +85,35 @@ class PersonRouterTest {
                 assertNotNull(list.get(1).getId());
                 assertEquals("Mary Jane", list.get(1).getName());
             });
+    }
+
+    @Test
+    void testRemoving() {
+        Person person = Flux.just(new Person("John Smith")).flatMap(mongo::insert).blockLast();
+        assertNotNull(person);
+        assertNotNull(person.getId());
+
+        client.delete().uri("/person/".concat(person.getId())).exchange()
+            .expectStatus().isNoContent()
+            .expectHeader().contentType(MediaType.APPLICATION_JSON)
+            .expectBody().isEmpty();
+    }
+
+    @Test
+    void testRemovingInvalidId() {
+        client.delete().uri("/person/not-an-object-id").exchange()
+            .expectStatus().isBadRequest()
+            .expectHeader().contentType(MediaType.APPLICATION_JSON)
+            .expectBody().isEmpty();
+    }
+
+    @Test
+    void testRemovingUnknownId() {
+        String id = ObjectId.get().toHexString();
+
+        client.delete().uri("/person/".concat(id)).exchange()
+            .expectStatus().isNotFound()
+            .expectHeader().contentType(MediaType.APPLICATION_JSON)
+            .expectBody().isEmpty();
     }
 }
