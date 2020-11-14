@@ -29,7 +29,7 @@ public final class AppConfiguration {
     private AppConfiguration() {
     }
 
-    private static class PropertyBasedEnvironment extends StandardEnvironment {
+    public static class PropertyBasedEnvironment extends StandardEnvironment {
 
         public PropertyBasedEnvironment(String filename) {
             try {
