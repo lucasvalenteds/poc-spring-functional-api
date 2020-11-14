@@ -23,7 +23,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 class PersonRouterTest {
 
     @Container
-    private static final GenericContainer container = new GenericContainer(DockerImageName.parse("mongo")).withExposedPorts(27017)
+    private static final GenericContainer container = new GenericContainer(DockerImageName.parse("mongo"))
+        .withExposedPorts(27017)
         .waitingFor(Wait.forLogMessage("(?i).*waiting for connections.*", 1));
 
     private final ReactiveMongoTemplate mongo = new ReactiveMongoTemplate(
@@ -34,14 +35,8 @@ class PersonRouterTest {
         )
     );
 
-    private final PersonRepository repository = new PersonRepository(mongo);
-
-    private final PersonHandler handler = new PersonHandler(repository);
-
-    private final PersonRouter router = new PersonRouter(handler);
-
     private final WebTestClient client = WebTestClient
-        .bindToRouterFunction(router.create())
+        .bindToRouterFunction(new PersonRouter(new PersonHandler(new PersonRepository(mongo))).create())
         .build();
 
     @BeforeEach
