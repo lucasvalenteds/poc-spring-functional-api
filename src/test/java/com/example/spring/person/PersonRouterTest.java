@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @Testcontainers
-class PersonRouterIntegrationTest {
+class PersonRouterTest {
 
     @Container
     private static final GenericContainer container = new GenericContainer(DockerImageName.parse("mongo"))
