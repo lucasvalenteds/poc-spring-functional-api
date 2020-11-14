@@ -96,7 +96,10 @@ class PersonRepositoryTest {
             .verifyComplete();
 
         StepVerifier.create(repository.findAll())
-            .assertNext(it -> assertEquals(person, it))
+            .assertNext(it -> {
+                assertEquals(person.getId(), it.getId());
+                assertEquals(person.getName(), it.getName());
+            })
             .verifyComplete();
     }
 }
