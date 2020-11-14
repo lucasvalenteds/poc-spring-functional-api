@@ -14,6 +14,7 @@ import reactor.core.publisher.Flux;
 import reactor.test.StepVerifier;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @Testcontainers
 class PersonRepositoryTest {
@@ -54,13 +55,15 @@ class PersonRepositoryTest {
             .flatMap(mongo::insert)
             .blockLast();
 
-        Flux<String> names = repository
-            .findAll()
-            .map(Person::getName);
-
-        StepVerifier.create(names)
-            .assertNext((name) -> assertEquals("John Smith", name))
-            .assertNext((name) -> assertEquals("Mary Jane", name))
+        StepVerifier.create(repository.findAll())
+            .assertNext((person) -> {
+                assertNotNull(person.getId());
+                assertEquals("John Smith", person.getName());
+            })
+            .assertNext((person) -> {
+                assertNotNull(person.getId());
+                assertEquals("Mary Jane", person.getName());
+            })
             .verifyComplete();
     }
 }

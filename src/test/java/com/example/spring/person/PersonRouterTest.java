@@ -62,6 +62,7 @@ class PersonRouterTest {
             .getResponseBody();
 
         assertNotNull(person);
+        assertNotNull(person.getId());
         assertEquals("John Smith", person.getName());
     }
 
@@ -77,7 +78,12 @@ class PersonRouterTest {
             .expectHeader().contentType(MediaType.APPLICATION_JSON)
             .expectBodyList(Person.class)
             .hasSize(2)
-            .contains(new Person("John Smith"))
-            .contains(new Person("Mary Jane"));
+            .value(list -> {
+                assertNotNull(list.get(0).getId());
+                assertEquals("John Smith", list.get(0).getName());
+
+                assertNotNull(list.get(1).getId());
+                assertEquals("Mary Jane", list.get(1).getName());
+            });
     }
 }
