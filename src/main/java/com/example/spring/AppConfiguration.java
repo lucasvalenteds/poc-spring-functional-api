@@ -35,7 +35,8 @@ public final class AppConfiguration {
             try {
                 getPropertySources().addLast(new ResourcePropertySource(filename));
             } catch (IOException exception) {
-                LOGGER.warn("Could not read the file {}.", filename, exception);
+                LOGGER.error("Could not read the file {}.", filename);
+                System.exit(1);
             }
         }
     }
