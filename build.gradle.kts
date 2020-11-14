@@ -35,6 +35,11 @@ dependencies {
     testImplementation("org.testcontainers", "junit-jupiter", properties["version.testcontainers"].toString())
 }
 
+configure<JavaPluginConvention> {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+}
+
 configure<ApplicationPluginConvention> {
     mainClassName = "com.example.spring.Main"
 }
