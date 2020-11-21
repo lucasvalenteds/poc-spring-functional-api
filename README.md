@@ -1,4 +1,4 @@
-# POC: Spring Declarative
+# POC: Spring Functional API
 
 It demonstrates how to implement a REST API using Spring WebFlux with unit tests, integration tests and end-to-end tests without Spring annotations.
 
